@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import br.com.giltecnologia.gerenciadorfinanceiro.R
+import br.com.giltecnologia.gerenciadorfinanceiro.extension.formatoBrasileiro
 import br.com.giltecnologia.gerenciadorfinanceiro.model.Transacao
 import kotlinx.android.synthetic.main.transacao_item.view.*
-import java.text.SimpleDateFormat
 
 
 class TransacoesAdapter(context: Context,
@@ -26,8 +26,7 @@ class TransacoesAdapter(context: Context,
 
          novoView.transacao_valor.text = transacao.valor.toString()
          novoView.transacao_categoria.text = transacao.categoria
-         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-         novoView.transacao_data.text = dateFormat.format(transacao.data.time)
+         novoView.transacao_data.text = transacao.data.formatoBrasileiro()
 
       return  novoView
 
