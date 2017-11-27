@@ -21,8 +21,9 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
         val lista = listOf(Transacao(BigDecimal(100.0), "Comida", TipoTransacaoEnum.DESPESA,Calendar.getInstance()),
                 Transacao(BigDecimal(200.0), "Cobustível",TipoTransacaoEnum.DESPESA, Calendar.getInstance()),
-                Transacao(BigDecimal(300.0), "Passeio",TipoTransacaoEnum.DESPESA, Calendar.getInstance()),
-                Transacao(BigDecimal(5000.0), "Salário",TipoTransacaoEnum.RECEITA, Calendar.getInstance())
+                Transacao(BigDecimal(300.0), "Passeio pelo parque da cidade em Brasília",TipoTransacaoEnum.DESPESA, Calendar.getInstance()),
+                Transacao(valor = BigDecimal( 5000.0), tipo = TipoTransacaoEnum.RECEITA, data = Calendar.getInstance(), categoria = "Salário") // NAMED PARAMETER = Não importa a ordem
+                                                                                                                                                    // ele irá atribuir o valor ao atributo nomeado
                 )
 
         val adapter = ArrayAdapter( this, android.R.layout.simple_list_item_1, lista)

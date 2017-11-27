@@ -1,39 +1,51 @@
 package br.com.giltecnologia.gerenciadorfinanceiro.adapter
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import br.com.giltecnologia.gerenciadorfinanceiro.R
+import br.com.giltecnologia.gerenciadorfinanceiro.enums.TipoTransacaoEnum
 import br.com.giltecnologia.gerenciadorfinanceiro.extension.formatoBrasileiro
+import br.com.giltecnologia.gerenciadorfinanceiro.extension.formatoMoedaBrasileiro
+import br.com.giltecnologia.gerenciadorfinanceiro.extension.limitaCaracteresApresentacao
 import br.com.giltecnologia.gerenciadorfinanceiro.model.Transacao
 import kotlinx.android.synthetic.main.transacao_item.view.*
 
 
 class TransacoesAdapter(context: Context,
-                        transacoes : List<Transacao>) : BaseAdapter() {
+                        transacoes: List<Transacao>) : BaseAdapter() {
 
-    private val  transacoes = transacoes
-    private val  context = context
+    private val transacoes = transacoes
+    private val context = context
 
     override fun getView(position: Int, view: View?, parent: ViewGroup?): View {
 
 
-         var novoView = LayoutInflater.from(context).inflate(R.layout.transacao_item, parent, false)
+        var novoView = LayoutInflater.from(context).inflate(R.layout.transacao_item, parent, false)
 
-         var transacao = transacoes[position]
+        var transacao = transacoes[position]
+        if (transacao.tipo == TipoTransacaoEnum.RECEITA) {
+            novoView.transacao_valor.setTextColor(ContextCompat.getColor(context, R.color.receita))
+            novoView.transacao_icone.setBackgroundResource(R.drawable.icone_transacao_item_receita)
+        } else {
+            novoView.transacao_valor.setTextColor(ContextCompat.getColor(context, R.color.despesa))
+            novoView.transacao_icone.setBackgroundResource(R.drawable.icone_transacao_item_despesa)
+        }
 
-         novoView.transacao_valor.text = transacao.valor.toString()
-         novoView.transacao_categoria.text = transacao.categoria
-         novoView.transacao_data.text = transacao.data.formatoBrasileiro()
 
-      return  novoView
+        novoView.transacao_valor.text = transacao.valor.formatoMoedaBrasileiro()
+        novoView.transacao_categoria.text = transacao.categoria.limitaCaracteresApresentacao()
+        novoView.transacao_data.text = transacao.data.formatoBrasileiro()
+
+        return novoView
 
     }
 
     override fun getItem(position: Int): Transacao {
-       return transacoes[position]
+        return transacoes[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -41,7 +53,7 @@ class TransacoesAdapter(context: Context,
     }
 
     override fun getCount(): Int {
-      return transacoes.size
+        return transacoes.size
     }
 
 
