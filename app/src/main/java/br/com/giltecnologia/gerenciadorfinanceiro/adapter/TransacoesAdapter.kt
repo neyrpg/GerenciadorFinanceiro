@@ -26,7 +26,23 @@ class TransacoesAdapter(context: Context,
 
         var novoView = LayoutInflater.from(context).inflate(R.layout.transacao_item, parent, false)
 
-        var transacao = transacoes[position]
+        val transacao = transacoes[position]
+        configuraApresentacao(transacao, novoView)
+        carregaValores(novoView, transacao)
+
+        return novoView
+
+    }
+
+    private fun carregaValores(novoView: View, transacao: Transacao) {
+        novoView.transacao_valor.text = transacao.valor.formatoMoedaBrasileiro()
+        novoView.transacao_categoria.text = transacao.categoria.limitaCaracteresApresentacao()
+        novoView.transacao_data.text = transacao.data.formatoBrasileiro()
+    }
+
+    private fun configuraApresentacao(transacao: Transacao, novoView: View) {
+
+
         if (transacao.tipo == TipoTransacaoEnum.RECEITA) {
             novoView.transacao_valor.setTextColor(ContextCompat.getColor(context, R.color.receita))
             novoView.transacao_icone.setBackgroundResource(R.drawable.icone_transacao_item_receita)
@@ -34,14 +50,6 @@ class TransacoesAdapter(context: Context,
             novoView.transacao_valor.setTextColor(ContextCompat.getColor(context, R.color.despesa))
             novoView.transacao_icone.setBackgroundResource(R.drawable.icone_transacao_item_despesa)
         }
-
-
-        novoView.transacao_valor.text = transacao.valor.formatoMoedaBrasileiro()
-        novoView.transacao_categoria.text = transacao.categoria.limitaCaracteresApresentacao()
-        novoView.transacao_data.text = transacao.data.formatoBrasileiro()
-
-        return novoView
-
     }
 
     override fun getItem(position: Int): Transacao {
